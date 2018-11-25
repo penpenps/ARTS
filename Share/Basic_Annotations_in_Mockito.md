@@ -112,7 +112,7 @@ public void testInjectMocksAnnotation(){
     assertEquals("aMeaning", myDictionary.getMeaning("aWord"));
 }
 ```
-`@InjectMocks` injects `wordMap` into `myDictionary` and the operations on `wordMap` in `myDictionary` will use the injected `wordMap`. Notice that if there are multiple `Map` objects with `@Mock` in the UT, Mockit will choose the one has the same name as inside variable. In our example, if the declaration in UT like following:
+`@InjectMocks` injects `wordMap` into `myDictionary` and the operations on `wordMap` in `myDictionary` will use the injected `wordMap`. Notice that if there are multiple `Map` objects with `@Mock` in the UT, Mockito will choose the one has the same name as inside variable. In our example, if the declaration in UT like following:
 ```java
 @Mock
 private Map wordMap;
@@ -128,7 +128,7 @@ It will automatically use `wordMap` instead of `anotherMap`. However, if there i
 Moveover, `@InjectMocks` works both for `@Mock` and `@Spy`.
 
 ## Note
-In order to enable those annotations in Mockit framework, we should init the annotations before all the tests:
+In order to enable those annotations in Mockito framework, we should init the annotations before all the tests:
 ```
 @BeforeClass(alwaysRun=true)
 public void beforeTest(){

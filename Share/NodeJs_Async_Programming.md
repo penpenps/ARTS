@@ -136,25 +136,6 @@ const myFirstPromise = new Promise((resolve, reject) => {
 ```
 有了`Promise`我们可以将以上执行A，B，C三个异步函数改写为：
 ```js
-function asyncA () {
-  // Do something
-  return new Promise((resolve, reject) => {
-    // resolve(data)
-  });
-}
-function asyncB () {
-  // Do something
-  return new Promise((resolve, reject) => {
-    // resolve(data)
-  });
-}
-function asyncC () {
-  // Do something
-  return new Promise((resolve, reject) => {
-    // resolve(null)
-  });
-}
-
 function main(callback) {
   // Do something.
   return new Promise((resolve, reject) => {
@@ -163,11 +144,20 @@ function main(callback) {
 }
 
 main.then(asyncA)
+    .then(function(){
+        // Do something
+    })
     .then(asyncB)
+    .then(function(){
+        // Do something
+    })
     .then(asyncC)
+    .then(function(){
+        // Do something
+    })
     .catch((error) => throw new Error(err.message));
 ```
-我们重新构造了`asyncA`, `asyncB`, `asyncC`函数，让他们的回调被`Promise`封装，无需每个回调中都需要单独处理异常。当`main`函数执行完毕时，我们只需要使用简单的`then`就可以将`main`函数执行结果传递给`aysncA`，`aysncA`执行完毕再传递给`asyncB`以此类推。`then`是`Promise`提供的方法，可以链式的将上一个`Promise`对象的`resolve`和`reject`传递给下一个`Promise`对象。这样整个代码的可读性得到了大大的改善。
+我们重新构造了`main`函数，让它的回调被`Promise`封装，无需每个回调中都需要单独处理异常。当`main`函数执行完毕时，我们只需要使用简单的`then`就可以将`main`函数执行结果传递给`aysncA`，`aysncA`执行完毕再传递给`asyncB`以此类推。`then`是`Promise`提供的方法，可以链式的将上一个`Promise`对象的`resolve`和`reject`传递给下一个`Promise`对象。这样整个代码的可读性得到了大大的改善。
 
 更巧妙的是`Promise`的异常处理，无需在链式调用的每个异步回调函数中做判断，使用`Promise`的`catch`接口，类似于Java的`try catch`一样，一旦发生异常，可以在一个地方进行判断处理。`Promise`允许在链式调用中定义多个`catch`，异常发生后，会往后寻找，离当前执行函数最近的`catch`来处理。
 
